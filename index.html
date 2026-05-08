@@ -1,136 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BookBusters Admin</title>
+  <title>BookBusters</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-[#0b0f19] text-white">
 
-<div class="flex min-h-screen">
+<nav class="flex gap-6 p-4 border-b border-gray-800">
+  <a href="index.html">🏠 Dashboard</a>
+  <a href="picks.html">📊 Picks</a>
+  <a href="research.html">🧠 Research</a>
+  <a href="vip.html">🔒 VIP</a>
+</nav>
 
-  <!-- SIDEBAR -->
-  <div class="w-64 bg-[#0f172a] p-6">
-    <h2 class="text-2xl font-bold mb-8">
-      Book<span class="text-blue-500">Busters</span>
-    </h2>
+<div class="p-10 text-center">
+  <h1 class="text-5xl font-extrabold">BookBusters 📊</h1>
+  <p class="text-gray-400 mt-3">2026 Data-Driven Sports Intelligence</p>
 
-    <button onclick="show('dashboard')" class="block mb-3 text-left w-full">📊 Dashboard</button>
-    <button onclick="show('picks')" class="block mb-3 text-left w-full">🏀 Picks</button>
-    <button onclick="show('admin')" class="block mb-3 text-left w-full">⚙️ Admin</button>
-  </div>
-
-  <!-- MAIN -->
-  <div class="flex-1 p-8">
-
-    <!-- DASHBOARD -->
-    <div id="dashboard">
-      <h1 class="text-4xl font-bold">Dashboard</h1>
-    </div>
-
-    <!-- PICKS -->
-    <div id="picks" class="hidden">
-      <h1 class="text-3xl font-bold mb-4">Live Picks</h1>
-      <div id="pickList" class="grid md:grid-cols-3 gap-4"></div>
-    </div>
-
-    <!-- ADMIN PANEL -->
-    <div id="admin" class="hidden">
-
-      <h1 class="text-3xl font-bold mb-6">Add New Pick</h1>
-
-      <div class="space-y-3 max-w-md">
-
-        <input id="title" placeholder="Pick title"
-          class="w-full p-2 bg-gray-800 rounded" />
-
-        <input id="sport" placeholder="Sport"
-          class="w-full p-2 bg-gray-800 rounded" />
-
-        <input id="confidence" placeholder="Confidence"
-          class="w-full p-2 bg-gray-800 rounded" />
-
-        <button onclick="addPick()"
-          class="bg-blue-600 px-4 py-2 rounded w-full">
-          Add Pick
-        </button>
-
-      </div>
-
-      <p class="text-gray-400 mt-6">
-        ⚠️ This saves temporarily in browser. To make it permanent, download JSON and replace file in GitHub.
-      </p>
-
-      <button onclick="downloadJSON()" class="mt-4 bg-green-600 px-4 py-2 rounded">
-        Download Updated picks.json
-      </button>
-
-    </div>
-
+  <div class="mt-10 grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+    <div class="bg-[#111827] p-6 rounded-xl">🔥 Win Rate: 67%</div>
+    <div class="bg-[#111827] p-6 rounded-xl">📈 ROI: +14%</div>
+    <div class="bg-[#111827] p-6 rounded-xl">🎯 Picks Tracked: 120+</div>
   </div>
 </div>
 
-<script>
-
-let picks = [];
-
-// SWITCH PAGES
-function show(page) {
-  document.querySelectorAll('div[id]').forEach(d => d.classList.add('hidden'));
-  document.getElementById(page).classList.remove('hidden');
-
-  if (page === 'picks') renderPicks();
-}
-
-// LOAD JSON
-async function load() {
-  const res = await fetch('./picks.json');
-  picks = await res.json();
-}
-
-// DISPLAY PICKS
-function renderPicks() {
-  const el = document.getElementById("pickList");
-
-  el.innerHTML = picks.map(p => `
-    <div class="bg-[#111827] p-4 rounded-xl">
-      <h2 class="font-bold">${p.title}</h2>
-      <p class="text-gray-400">${p.sport}</p>
-      <p class="text-blue-400">${p.confidence}</p>
-    </div>
-  `).join("");
-}
-
-// ADD PICK
-function addPick() {
-  const newPick = {
-    id: Date.now(),
-    title: document.getElementById("title").value,
-    sport: document.getElementById("sport").value,
-    confidence: document.getElementById("confidence").value
-  };
-
-  picks.push(newPick);
-
-  alert("Pick added (temporary)");
-}
-
-// DOWNLOAD UPDATED JSON
-function downloadJSON() {
-  const blob = new Blob([JSON.stringify(picks, null, 2)], {type: "application/json"});
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "picks.json";
-  a.click();
-}
-
-load();
-show('dashboard');
-
-</script>
-
 </body>
 </html>
-
