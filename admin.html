@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - BookBusters</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+
+<body class="bg-[#0b0f19] text-white p-8">
+
+<h1 class="text-3xl font-bold mb-6">Admin Panel ⚡</h1>
+
+<!-- ADD PICK FORM -->
+<div class="grid gap-4 max-w-md">
+  <input id="player" placeholder="Player Name" class="p-3 bg-[#111827] rounded">
+  <input id="bet" placeholder="Bet (Over/Under)" class="p-3 bg-[#111827] rounded">
+  <input id="line" placeholder="Line (ex: 27.5)" class="p-3 bg-[#111827] rounded">
+  <input id="confidence" placeholder="Confidence %" class="p-3 bg-[#111827] rounded">
+  <input id="risk" placeholder="Risk Level" class="p-3 bg-[#111827] rounded">
+
+  <button onclick="addPick()" class="bg-green-500 p-3 rounded font-bold">
+    Add Pick 🚀
+  </button>
+</div>
+
+<div id="status" class="mt-4 text-green-400"></div>
+
+<!-- PICKS LIST -->
+<h2 class="text-2xl mt-10 mb-4">All Picks</h2>
+<div id="pickList" class="grid gap-4"></div>
+
+<script>
+const supabaseUrl = "https://hohtaltrqzqvehfqcplz.supabase.co"
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhvaHRhbHRycXpxdmVoZnFjcGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMTgwNDMsImV4cCI6MjA5Mzc5NDA0M30.qIq-DWZwdSIGBJSTzG-KseisJRPHFQaCoA2CQs38JQs"
+
+const supabase = supabase.createClient(supabaseUrl, supabaseKey)
+
+// ADD PICK
+async function addPick() {
+  const player = document.getElementById("player").value
+  const bet = document.getElementById("bet").value
+  const line = document.getElementById("line").value
+  const confidence = document.getElementById("confidence").value
+  const risk = document.getElementById("risk").value
+
+  const { error } = await supabase.from('picks').insert([
+    { player, bet, line, confidence, risk }
+  ])
+
+  if (error) {
+    document.getElementById("status").innerText = "Error adding pick"
+    console.log(error)
+  } else {
+    document.getElementById("status").innerText = "Pick added ✅"
+
+    // clear inputs
+    document.getElementById("player").value = ""
+    document.getElementById("bet").value = ""
+    document.getElementById("line").value = ""
+    document.getElementById("confidence").value = ""
+    document.getElementById("risk").value = ""
+
+    loadAdminPicks()
+  }
+}
+
+// LOAD PICKS
+async function loadAdminPicks() {
+  const { data, error } = await supabase
+    .from('picks')
+    .select('*')
+    .order('id', { ascending: false })
+
+  if (error) {
+    console.log(error)
+    return
+  }
+
+  document.getElementById("pickList").innerHTML = data.map(p => `
+    <div class="bg-[#111827] p-4 rounded-xl border border-gray-800 flex justify-between items-center">
+      <div>
+        <div class="font-bold">🏀 ${p.player}</div>
+        <div class="text-sm text-gray-400">${p.bet} (${p.line})</div>
+        <div class="text-sm text-green-400">${p.confidence}%</div>
+      </div>
+
+      <button onclick="deletePick(${p.id})" class="bg-red-500 px-3 py-1 rounded">
+        Delete
+      </button>
+    </div>
+  `).join("")
+}
+
+// DELETE PICK
+async function deletePick(id) {
+  const { error } = await supabase
+    .from('picks')
+    .delete()
+    .eq('id', id)
+
+  if (error) {
+    console.log(error)
+  } else {
+    loadAdminPicks()
+  }
+}
+
+// LOAD ON PAGE OPEN
+loadAdminPicks()
+</script>
+
+</body>
+</html>
