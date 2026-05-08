@@ -7,23 +7,44 @@
 
 <body class="bg-[#0b0f19] text-white">
 
-<nav class="flex gap-6 p-4 border-b border-gray-800">
-  <a href="index.html">🏠 Dashboard</a>
-  <a href="picks.html">📊 Picks</a>
-  <a href="research.html">🧠 Research</a>
-  <a href="vip.html">🔒 VIP</a>
+<!-- NAVBAR -->
+<nav class="flex justify-between items-center p-4 border-b border-gray-800">
+  <h1 class="text-xl font-bold">BookBusters 📊</h1>
+  <div class="flex gap-6">
+    <a href="index.html">Dashboard</a>
+    <a href="picks.html">Picks</a>
+    <a href="research.html">Research</a>
+    <a href="vip.html">VIP 🔒</a>
+  </div>
 </nav>
 
-<div class="p-10 text-center">
-  <h1 class="text-5xl font-extrabold">BookBusters 📊</h1>
-  <p class="text-gray-400 mt-3">2026 Data-Driven Sports Intelligence</p>
+<!-- HERO -->
+<section class="text-center mt-16">
+  <h2 class="text-5xl font-extrabold">Data-Driven Betting Picks</h2>
+  <p class="text-gray-400 mt-4">AI-powered insights. Real edges. Daily profits.</p>
 
-  <div class="mt-10 grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-    <div class="bg-[#111827] p-6 rounded-xl">🔥 Win Rate: 67%</div>
-    <div class="bg-[#111827] p-6 rounded-xl">📈 ROI: +14%</div>
-    <div class="bg-[#111827] p-6 rounded-xl">🎯 Picks Tracked: 120+</div>
+  <a href="picks.html" class="inline-block mt-6 bg-green-500 px-6 py-3 rounded-xl font-bold">
+    View Today’s Picks 🚀
+  </a>
+</section>
+
+<!-- STATS -->
+<section class="mt-16 grid md:grid-cols-3 gap-6 max-w-5xl mx-auto px-6">
+  <div class="bg-[#111827] p-6 rounded-xl text-center">
+    🔥 Win Rate  
+    <div class="text-2xl font-bold mt-2">67%</div>
   </div>
-</div>
+
+  <div class="bg-[#111827] p-6 rounded-xl text-center">
+    📈 ROI  
+    <div class="text-2xl font-bold mt-2">+14%</div>
+  </div>
+
+  <div class="bg-[#111827] p-6 rounded-xl text-center">
+    🎯 Picks Tracked  
+    <div class="text-2xl font-bold mt-2">120+</div>
+  </div>
+</section>
 
 </body>
 </html>
