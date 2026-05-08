@@ -1,0 +1,37 @@
+[
+  {
+    "id": 101,
+    "date": "2026-05-09",
+    "title": "Jayson Tatum Over 28.5 Points",
+    "sport": "NBA Player Prop",
+    "confidence": "High"
+  },
+  {
+    "id": 102,
+    "date": "2026-05-09",
+    "title": "Luka Doncic Over 8.5 Assists",
+    "sport": "NBA Player Prop",
+    "confidence": "High"
+  },
+  {
+    "id": 103,
+    "date": "2026-05-09",
+    "title": "Nikola Jokic Over 10.5 Rebounds",
+    "sport": "NBA Player Prop",
+    "confidence": "Medium-High"
+  },
+  {
+    "id": 104,
+    "date": "2026-05-09",
+    "title": "Stephen Curry Over 4.5 3PT Made",
+    "sport": "NBA Player Prop",
+    "confidence": "High"
+  },
+  {
+    "id": 105,
+    "date": "2026-05-09",
+    "title": "Anthony Davis Over 2.5 Blocks",
+    "sport": "NBA Player Prop",
+    "confidence": "Medium"
+  }
+]
