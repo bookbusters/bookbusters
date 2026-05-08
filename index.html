@@ -13,34 +13,97 @@
       Book<span class="text-blue-500">Busters</span>
     </h1>
     <p class="text-gray-400 mt-2">Data-Driven NBA Player Props</p>
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>BookBusters Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#0b0f19] text-white">
+
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <div class="w-64 bg-[#0f172a] p-6 hidden md:block">
+    <h2 class="text-2xl font-bold mb-8">
+      Book<span class="text-blue-500">Busters</span>
+    </h2>
+
+    <div class="space-y-4 text-gray-300 text-sm">
+      <p class="text-white font-semibold">📊 Dashboard</p>
+      <p>🏀 NBA Picks</p>
+      <p>🔥 Featured</p>
+      <p>📈 Stats</p>
+      <p>🔒 VIP</p>
+    </div>
   </div>
 
-  <!-- PICKS -->
-  <div id="picks" class="max-w-5xl mx-auto grid md:grid-cols-3 gap-6 px-6"></div>
+  <!-- MAIN CONTENT -->
+  <div class="flex-1 p-6">
 
-  <script>
-    async function loadPicks() {
-      const res = await fetch('./picks.json');
-      const data = await res.json();
+    <!-- HEADER -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold">
+        Welcome to <span class="text-blue-500">BookBusters</span>
+      </h1>
+      <p class="text-gray-400 mt-2">
+        Live NBA Player Prop Dashboard
+      </p>
+    </div>
 
-      const container = document.getElementById("picks");
+    <!-- STATS CARDS -->
+    <div class="grid md:grid-cols-3 gap-4 mb-10">
 
-      container.innerHTML = data.map(pick => `
-        <div class="bg-[#111827] border border-gray-800 p-6 rounded-2xl hover:scale-105 transition">
-          <h2 class="text-xl font-bold">${pick.title}</h2>
-          <p class="text-gray-400 mt-2">${pick.sport}</p>
+      <div class="bg-[#111827] p-5 rounded-xl border border-gray-800">
+        <p class="text-gray-400">Win Rate</p>
+        <p class="text-2xl font-bold text-green-400">65%</p>
+      </div>
 
-          <div class="mt-4">
-            <span class="text-sm px-3 py-1 rounded-full bg-blue-600">
-              ${pick.confidence}
-            </span>
-          </div>
-        </div>
-      `).join("");
-    }
+      <div class="bg-[#111827] p-5 rounded-xl border border-gray-800">
+        <p class="text-gray-400">ROI</p>
+        <p class="text-2xl font-bold text-blue-400">+12.4%</p>
+      </div>
 
-    loadPicks();
-  </script>
+      <div class="bg-[#111827] p-5 rounded-xl border border-gray-800">
+        <p class="text-gray-400">Total Picks</p>
+        <p class="text-2xl font-bold">100+</p>
+      </div>
+
+    </div>
+
+    <!-- PICKS -->
+    <h2 class="text-2xl font-bold mb-4">Today's Picks</h2>
+
+    <div id="picks" class="grid md:grid-cols-3 gap-6"></div>
+
+  </div>
+</div>
+
+<script>
+async function loadPicks() {
+  const res = await fetch('./picks.json');
+  const data = await res.json();
+
+  const container = document.getElementById("picks");
+
+  container.innerHTML = data.map(pick => `
+    <div class="bg-[#111827] p-6 rounded-xl border border-gray-800 hover:scale-105 transition">
+      <h3 class="text-lg font-bold">${pick.title}</h3>
+      <p class="text-gray-400 mt-2">${pick.sport}</p>
+
+      <div class="mt-4">
+        <span class="px-3 py-1 text-sm rounded-full bg-blue-600">
+          ${pick.confidence}
+        </span>
+      </div>
+    </div>
+  `).join("");
+}
+
+loadPicks();
+</script>
 
 </body>
 </html>
+    
