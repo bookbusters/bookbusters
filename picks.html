@@ -23,8 +23,9 @@
 </div>
 
 <script>
-const supabaseUrl = "https://hohtaltrqzqvehfqcplz.supabase.co/rest/v1/"
-const supabaseKey = "sb_publishable_DbmGXGkPBBbklyTdEWMXrA_d39EPcGT"
+const supabaseUrl = "https://hohtaltrqzqvehfqcplz.supabase.co"
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhvaHRhbHRycXpxdmVoZnFjcGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMTgwNDMsImV4cCI6MjA5Mzc5NDA0M30.qIq-DWZwdSIGBJSTzG-KseisJRPHFQaCoA2CQs38JQs"
+
 const supabase = supabase.createClient(supabaseUrl, supabaseKey)
 
 async function loadPicks() {
@@ -32,6 +33,11 @@ async function loadPicks() {
     .from('picks')
     .select('*')
     .order('id', { ascending: false })
+
+  if (error) {
+    console.log(error)
+    return
+  }
 
   document.getElementById("picks").innerHTML = data.map(p => `
     <div class="bg-[#111827] p-5 rounded-xl border border-gray-800">
@@ -47,5 +53,5 @@ async function loadPicks() {
 loadPicks()
 </script>
 
-</body><div id="picks" class="grid md:grid-cols-3 gap-4 p-6"></div>
+</body>
 </html>
