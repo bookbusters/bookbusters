@@ -5,11 +5,18 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-black text-white">
+<body class="bg-[#0b0f19] text-white">
 
-  <h1 class="text-center text-4xl font-bold mt-10">BookBusters Live Picks</h1>
+  <!-- HEADER -->
+  <div class="text-center py-10">
+    <h1 class="text-5xl font-extrabold tracking-tight">
+      Book<span class="text-blue-500">Busters</span>
+    </h1>
+    <p class="text-gray-400 mt-2">Data-Driven NBA Player Props</p>
+  </div>
 
-  <div id="picks" class="max-w-4xl mx-auto mt-10 grid gap-4"></div>
+  <!-- PICKS -->
+  <div id="picks" class="max-w-5xl mx-auto grid md:grid-cols-3 gap-6 px-6"></div>
 
   <script>
     async function loadPicks() {
@@ -19,10 +26,15 @@
       const container = document.getElementById("picks");
 
       container.innerHTML = data.map(pick => `
-        <div class="bg-gray-900 p-6 rounded-xl">
+        <div class="bg-[#111827] border border-gray-800 p-6 rounded-2xl hover:scale-105 transition">
           <h2 class="text-xl font-bold">${pick.title}</h2>
-          <p>${pick.sport}</p>
-          <p class="text-green-400">Confidence: ${pick.confidence}</p>
+          <p class="text-gray-400 mt-2">${pick.sport}</p>
+
+          <div class="mt-4">
+            <span class="text-sm px-3 py-1 rounded-full bg-blue-600">
+              ${pick.confidence}
+            </span>
+          </div>
         </div>
       `).join("");
     }
