@@ -1,10 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bookbusters</title>
+  <title>BookBusters</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>Welcome to Bookbusters</h1>
-  <p>This is my website.</p>
+
+<body class="bg-black text-white">
+
+  <h1 class="text-center text-4xl font-bold mt-10">BookBusters Live Picks</h1>
+
+  <div id="picks" class="max-w-4xl mx-auto mt-10 grid gap-4"></div>
+
+  <script>
+    async function loadPicks() {
+      const res = await fetch('./picks.json');
+      const data = await res.json();
+
+      const container = document.getElementById("picks");
+
+      container.innerHTML = data.map(pick => `
+        <div class="bg-gray-900 p-6 rounded-xl">
+          <h2 class="text-xl font-bold">${pick.title}</h2>
+          <p>${pick.sport}</p>
+          <p class="text-green-400">Confidence: ${pick.confidence}</p>
+        </div>
+      `).join("");
+    }
+
+    loadPicks();
+  </script>
+
 </body>
 </html>
