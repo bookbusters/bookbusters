@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VIP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
+<body class="bg-black text-white">
+
+<div class="p-10 text-center">
+
+  <h1 class="text-4xl font-bold">🔒 VIP Access</h1>
+
+  <input id="pass" placeholder="Enter password"
+    class="mt-6 p-2 text-black rounded"/>
+
+  <button onclick="check()" class="bg-blue-600 px-4 py-2 rounded ml-2">
+    Enter
+  </button>
+
+  <div id="vipContent" class="hidden mt-10">
+    <h2 class="text-green-400 text-2xl">VIP Picks Unlocked 🔥</h2>
+    <p class="mt-4 text-gray-300">
+      Premium model picks + early access drops.
+    </p>
+  </div>
+
+</div>
+
+<script>
+function check() {
+  const val = document.getElementById("pass").value;
+
+  if (val === "VIP2026") {
+    document.getElementById("vipContent").classList.remove("hidden");
+  } else {
+    alert("Incorrect password");
+  }
+}
+</script>
+
+</body>
+</html>
