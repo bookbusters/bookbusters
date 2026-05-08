@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BookBusters Picks</title>
 
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+
+<body class="bg-[#0b0f19] text-white">
+
+<nav class="flex gap-6 p-4 border-b border-gray-800">
+  <a href="index.html">🏠 Dashboard</a>
+  <a href="picks.html">📊 Picks</a>
+  <a href="research.html">🧠 Research</a>
+  <a href="vip.html">🔒 VIP</a>
+</nav>
+
+<div class="p-10">
+  <h1 class="text-4xl font-bold">Today’s Picks 📊</h1>
+
+  <div id="picks" class="grid md:grid-cols-3 gap-4 mt-8"></div>
+</div>
+
+<script>
+const supabaseUrl = "https://hohtaltrqzqvehfqcplz.supabase.co/rest/v1/"
+const supabaseKey = "sb_publishable_DbmGXGkPBBbklyTdEWMXrA_d39EPcGT"
+const supabase = supabase.createClient(supabaseUrl, supabaseKey)
+
+async function loadPicks() {
+  const { data, error } = await supabase
+    .from('picks')
+    .select('*')
+    .order('id', { ascending: false })
+
+  document.getElementById("picks").innerHTML = data.map(p => `
+    <div class="bg-[#111827] p-5 rounded-xl border border-gray-800">
+      <h2 class="font-bold">🏀 ${p.player}</h2>
+      <p>${p.bet}</p>
+      <p>${p.line}</p>
+      <p class="text-green-400">${p.confidence}% confidence</p>
+      <p class="text-gray-400">${p.risk}</p>
+    </div>
+  `).join("")
+}
+
+loadPicks()
+</script>
+
+</body><div id="picks" class="grid md:grid-cols-3 gap-4 p-6"></div>
+</html>
