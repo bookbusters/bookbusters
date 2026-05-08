@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BookBusters Dashboard</title>
+  <title>BookBusters Admin</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -11,114 +11,126 @@
 
   <!-- SIDEBAR -->
   <div class="w-64 bg-[#0f172a] p-6">
-
     <h2 class="text-2xl font-bold mb-8">
       Book<span class="text-blue-500">Busters</span>
     </h2>
 
-    <div class="space-y-4 text-sm">
-
-      <button onclick="showPage('dashboard')" class="block text-left w-full text-white font-semibold">
-        📊 Dashboard
-      </button>
-
-      <button onclick="showPage('picks')" class="block text-left w-full text-gray-300 hover:text-white">
-        🏀 Picks
-      </button>
-
-      <button onclick="showPage('stats')" class="block text-left w-full text-gray-300 hover:text-white">
-        📈 Stats
-      </button>
-
-      <button onclick="showPage('vip')" class="block text-left w-full text-gray-300 hover:text-white">
-        🔒 VIP
-      </button>
-
-    </div>
+    <button onclick="show('dashboard')" class="block mb-3 text-left w-full">📊 Dashboard</button>
+    <button onclick="show('picks')" class="block mb-3 text-left w-full">🏀 Picks</button>
+    <button onclick="show('admin')" class="block mb-3 text-left w-full">⚙️ Admin</button>
   </div>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <div class="flex-1 p-8">
 
-    <!-- DASHBOARD VIEW -->
-    <div id="dashboard" class="page">
-      <h1 class="text-4xl font-bold mb-4">Dashboard</h1>
+    <!-- DASHBOARD -->
+    <div id="dashboard">
+      <h1 class="text-4xl font-bold">Dashboard</h1>
+    </div>
 
-      <div class="grid md:grid-cols-3 gap-4">
-        <div class="bg-[#111827] p-6 rounded-xl">
-          <p class="text-gray-400">Win Rate</p>
-          <h2 class="text-2xl text-green-400 font-bold">65%</h2>
-        </div>
+    <!-- PICKS -->
+    <div id="picks" class="hidden">
+      <h1 class="text-3xl font-bold mb-4">Live Picks</h1>
+      <div id="pickList" class="grid md:grid-cols-3 gap-4"></div>
+    </div>
 
-        <div class="bg-[#111827] p-6 rounded-xl">
-          <p class="text-gray-400">ROI</p>
-          <h2 class="text-2xl text-blue-400 font-bold">+12.4%</h2>
-        </div>
+    <!-- ADMIN PANEL -->
+    <div id="admin" class="hidden">
 
-        <div class="bg-[#111827] p-6 rounded-xl">
-          <p class="text-gray-400">Total Picks</p>
-          <h2 class="text-2xl font-bold">100+</h2>
-        </div>
+      <h1 class="text-3xl font-bold mb-6">Add New Pick</h1>
+
+      <div class="space-y-3 max-w-md">
+
+        <input id="title" placeholder="Pick title"
+          class="w-full p-2 bg-gray-800 rounded" />
+
+        <input id="sport" placeholder="Sport"
+          class="w-full p-2 bg-gray-800 rounded" />
+
+        <input id="confidence" placeholder="Confidence"
+          class="w-full p-2 bg-gray-800 rounded" />
+
+        <button onclick="addPick()"
+          class="bg-blue-600 px-4 py-2 rounded w-full">
+          Add Pick
+        </button>
+
       </div>
-    </div>
 
-    <!-- PICKS VIEW -->
-    <div id="picks" class="page hidden">
-      <h1 class="text-4xl font-bold mb-6">Picks</h1>
-
-      <div id="picksContainer" class="grid md:grid-cols-3 gap-4"></div>
-    </div>
-
-    <!-- STATS VIEW -->
-    <div id="stats" class="page hidden">
-      <h1 class="text-4xl font-bold">Stats</h1>
-      <p class="text-gray-400 mt-4">Performance tracking coming soon.</p>
-    </div>
-
-    <!-- VIP VIEW -->
-    <div id="vip" class="page hidden">
-      <h1 class="text-4xl font-bold">VIP Access</h1>
-      <p class="text-gray-400 mt-4">
-        Premium picks, early access, and model insights coming soon.
+      <p class="text-gray-400 mt-6">
+        ⚠️ This saves temporarily in browser. To make it permanent, download JSON and replace file in GitHub.
       </p>
+
+      <button onclick="downloadJSON()" class="mt-4 bg-green-600 px-4 py-2 rounded">
+        Download Updated picks.json
+      </button>
+
     </div>
 
   </div>
 </div>
 
 <script>
-// PAGE SWITCHING SYSTEM
-function showPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+
+let picks = [];
+
+// SWITCH PAGES
+function show(page) {
+  document.querySelectorAll('div[id]').forEach(d => d.classList.add('hidden'));
   document.getElementById(page).classList.remove('hidden');
 
-  if (page === 'picks') loadPicks();
+  if (page === 'picks') renderPicks();
 }
 
-// LOAD PICKS FROM JSON
-async function loadPicks() {
+// LOAD JSON
+async function load() {
   const res = await fetch('./picks.json');
-  const data = await res.json();
+  picks = await res.json();
+}
 
-  const container = document.getElementById("picksContainer");
+// DISPLAY PICKS
+function renderPicks() {
+  const el = document.getElementById("pickList");
 
-  container.innerHTML = data.map(pick => `
-    <div class="bg-[#111827] p-6 rounded-xl border border-gray-800">
-      <h2 class="font-bold text-lg">${pick.title}</h2>
-      <p class="text-gray-400 mt-2">${pick.sport}</p>
-
-      <div class="mt-4">
-        <span class="px-3 py-1 text-sm rounded-full bg-blue-600">
-          ${pick.confidence}
-        </span>
-      </div>
+  el.innerHTML = picks.map(p => `
+    <div class="bg-[#111827] p-4 rounded-xl">
+      <h2 class="font-bold">${p.title}</h2>
+      <p class="text-gray-400">${p.sport}</p>
+      <p class="text-blue-400">${p.confidence}</p>
     </div>
   `).join("");
 }
 
-// DEFAULT PAGE
-showPage('dashboard');
+// ADD PICK
+function addPick() {
+  const newPick = {
+    id: Date.now(),
+    title: document.getElementById("title").value,
+    sport: document.getElementById("sport").value,
+    confidence: document.getElementById("confidence").value
+  };
+
+  picks.push(newPick);
+
+  alert("Pick added (temporary)");
+}
+
+// DOWNLOAD UPDATED JSON
+function downloadJSON() {
+  const blob = new Blob([JSON.stringify(picks, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "picks.json";
+  a.click();
+}
+
+load();
+show('dashboard');
+
 </script>
 
 </body>
 </html>
+
